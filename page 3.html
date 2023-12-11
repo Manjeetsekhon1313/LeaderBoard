@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <link rel="stylesheet" href="style.css">
+    <title> Read Leaderboard </title>
+  </head>
+  <body>
+    <h5> Hollow Knight Leaderboard</h5>
+    <div id="Red 1"></div> <br>
+
+    <script>
+        window.onload=goFetch;
+      function goFetch() 
+        {
+        let search = window.location.search;
+        let query = new URLSearchParams(search);
+        console.log(query.get('id'));
+        let GameID = query.get('id');
+        var quoteTag = document.getElementById('Red 1');
+        quoteTag.innerHTML = '';
+        var tableTag = '<table> <tr> <th> Player </th> <th> Score </th> <th> Time </th> </tr>';
+        var index = 0;
+        fetch('https://lime-faithful-hippo.cyclic.app/api/leaderboard/' + GameID)
+          .then(function (response) 
+          {
+            return response.json();
+          })
+          .then(function (data) 
+          {
+            console.log(data.Leaderboard);
+            data.Leaderboard.forEach((element) => 
+            {
+              tableTag += '<tr>';
+              tableTag += `<td>${element.Player}</td>`;
+              tableTag += `<td>${element.Score}</td>`;
+              tableTag += `<td>${element.Time}</td>`;
+              tableTag += '</tr>';
+              index++;
+            });
+
+            tableTag += '</table>';
+            quoteTag.innerHTML += tableTag;
+          });
+      }
+    </script>
+  </body>
+</html>

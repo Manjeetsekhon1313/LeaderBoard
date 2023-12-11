@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head> 
+    <link rel="stylesheet" href="style.css">
+    <title> Read Games </title>
+  </head>
+  <body>
+    <h1> GAMES </h1>
+    <div id="Games"></div> <br>
+
+    <a href="page2.html"><button>New Game</button></a>
+
+    <script>
+        window.onload=goFetch;
+      function goFetch() 
+        {
+        var quoteTag = document.getElementById('Games');
+        quoteTag.innerHTML = '';
+        var tableTag = '<table><tr> <th> Game Name </th> <th> platform </th></tr>';
+        var index = 0;
+        fetch('https://lime-faithful-hippo.cyclic.app/api/games')
+          .then(function (response) 
+          {
+            return response.json();
+          })
+          .then(function (data) 
+          {
+            console.log(data);
+            data.forEach((element) => 
+            {
+              tableTag += '<tr>';
+              tableTag += `<td><a href="page 3.html?id=${element.id}">${element.GameName}</a></td>`;
+              tableTag += `<td>${element.Platform}</td>`;
+              tableTag += '</tr>';
+              index++;
+            });
+
+            tableTag += '</table>';
+            quoteTag.innerHTML += tableTag;
+          });
+      }
+    </script>
+  </body>
+</html>
